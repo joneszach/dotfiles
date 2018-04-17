@@ -11,7 +11,7 @@ syntax enable
 set listchars=space:·,tab:│-
 set colorcolumn=80
 set cursorline
-"set path+=**
+set path+=**
 set wildmenu
 set hlsearch
 set ignorecase
@@ -35,13 +35,6 @@ imap <LeftMouse> <nop>
 vnoremap <C-c> "+y
 inoremap <C-c> <Esc>"+yya
 nnoremap <C-c> "+yy
-" json pretty printer
-nnoremap <leader>j :%!python -m json.tool<CR>
-" Delete line of text
-nnoremap <leader>d "_dd<CR>k
-" Regenerate tags file
-"nnoremap <leader>t :!~/scripts/tags.sh<CR>
-nnoremap <leader>t :call system('[ -f tags ] && ~/scripts/tags.sh')<CR>
 " Switch buffers with F9 and F10
 inoremap <F9> <Esc>:bprev<CR>
 inoremap <F10> <Esc>:bnext<CR>
@@ -58,6 +51,12 @@ nnoremap <C-S-k> "_dd<CR>k
 inoremap <C-S-k> <Esc>"_dd<CR>ki
 " Show tags in the local file
 nnoremap <Leader>r :CtrlPBufTag<CR>
+" json pretty printer
+nnoremap <leader>j :%!python -m json.tool<CR>
+" Delete line of text
+nnoremap <leader>d "_dd<CR>k
+" Regenerate tags file. A file 'tags' must be present in CWD.
+nnoremap <leader>t :call system('[ -f tags ] && ag -l \| ctags --links=no -L-')<CR>
 
 """ Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -87,7 +86,6 @@ let g:netrw_mousemaps = 0
 let python_highlight_all = 1
 let g:buftabline_indicators=1
 let g:loaded_matchparen=1
-"let g:indentLine_char = '⎸'
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
@@ -96,12 +94,6 @@ let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 
 " Colorscheme options
 set t_Co=256
-"set termguicolors
-"let g:molokai_original = 1
-"colorscheme molokai " I like this theme.
-"colorscheme gruvbox " Not a fan of this theme.
-"colorscheme jellybeans " Not a fan of this theme. No color variation.
-"color dracula
 set background=dark
 color PaperColor
 
@@ -116,18 +108,3 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 
-function! FzyCommand(choice_command, vim_command)
-  try
-    let output = system(a:choice_command . " | fzy ")
-  catch /Vim:Interrupt/
-    " Swallow errors from ^C, allow redraw! below
-  endtry
-  redraw!
-  if v:shell_error == 0 && !empty(output)
-    exec a:vim_command . ' ' . output
-  endif
-endfunction
-
-nnoremap <leader>e :call FzyCommand("ag . --silent -l -g ''", ":e")<cr>
-nnoremap <leader>v :call FzyCommand("ag . --silent -l -g ''", ":vs")<cr>
-nnoremap <leader>s :call FzyCommand("ag . --silent -l -g ''", ":sp")<cr>
