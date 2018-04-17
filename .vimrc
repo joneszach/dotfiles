@@ -52,11 +52,11 @@ inoremap <C-S-k> <Esc>"_dd<CR>ki
 " Show tags in the local file
 nnoremap <Leader>r :CtrlPBufTag<CR>
 " json pretty printer
-nnoremap <leader>j :%!python -m json.tool<CR>
+nnoremap <leader>json :%!python -m json.tool<CR>
 " Delete line of text
 nnoremap <leader>d "_dd<CR>k
 " Regenerate tags file. A file 'tags' must be present in CWD.
-nnoremap <leader>t :call system('[ -f tags ] && ag -l \| ctags --links=no -L-')<CR>
+nnoremap <leader>tags :call system('[ -f tags ] && ag -l \| ctags --links=no -L-')<CR>
 
 """ Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
