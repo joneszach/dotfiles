@@ -35,7 +35,7 @@ imap <LeftMouse> <nop>
 " Copy-to-system-clipboard support. On debian I need `vim-gtk` package.
 vnoremap <C-c> "+y
 inoremap <C-c> <Esc>"+yya
-nnoremap <C-c> "+yy
+nnoremap <C-c> :y+<CR>
 " Switch buffers with F9 and F10
 inoremap <F9> <Esc>:bprev<CR>
 inoremap <F10> <Esc>:bnext<CR>
@@ -58,6 +58,9 @@ nnoremap <leader>json :%!python -m json.tool<CR>
 nnoremap <leader>d "_dd<CR>k
 " Regenerate tags file. A file 'tags' must be present in CWD.
 nnoremap <leader>tags :call system('[ -f tags ] && ag -l \| ctags --links=no -L-')<CR>
+" Copy entire buffer to system clipboard.
+nnoremap <leader>ca :%y+<CR>
+nnoremap <leader>ss :set syntax=
 
 """ Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -74,7 +77,6 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'maxmellon/vim-jsx-pretty'
 Plugin 'vim-python/python-syntax'
 Plugin 'NLKNguyen/papercolor-theme'
-Plugin 'tpope/vim-fugitive'
 Plugin 'JazzCore/ctrlp-cmatcher'
 
 call vundle#end()            " required
@@ -92,6 +94,7 @@ let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+let g:NERDCreateDefaultMappings = 0
 
 " Colorscheme options
 set t_Co=256
@@ -102,6 +105,10 @@ color PaperColor
 " (Only if we are not SSH)
 if empty($SSH_CLIENT)
     "hi Normal guibg=NONE ctermbg=NONE
+end
+
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
 end
 
 " Highlight trailing spaces with red.
@@ -271,4 +278,34 @@ function! WatchForChanges(bufname, ...)
   "echo msg
   let @"=reg_saved
 endfunction
+
+let autoreadargs={'autoread':1,'more_events':0}
+execute WatchForChanges("*",autoreadargs)
+
+" Save current view settings on a per-window, per-buffer basis.
+function! AutoSaveWinView()
+    if !exists("w:SavedBufView")
+        let w:SavedBufView = {}
+    endif
+    let w:SavedBufView[bufnr("%")] = winsaveview()
+endfunction
+
+" Restore current view settings.
+function! AutoRestoreWinView()
+    let buf = bufnr("%")
+    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
+        let v = winsaveview()
+        let atStartOfFile = v.lnum == 1 && v.col == 0
+        if atStartOfFile && !&diff
+            call winrestview(w:SavedBufView[buf])
+        endif
+        unlet w:SavedBufView[buf]
+    endif
+endfunction
+
+" When switching buffers, preserve window view.
+if v:version >= 700
+    autocmd BufLeave * call AutoSaveWinView()
+    autocmd BufEnter * call AutoRestoreWinView()
+endif
 
