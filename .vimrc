@@ -10,7 +10,7 @@ set directory=~/.vim/swp//
 syntax enable
 set listchars=space:·,tab:│-
 set colorcolumn=80
-set cursorline
+"set cursorline
 set path+=**
 set wildmenu
 set hlsearch
@@ -25,6 +25,9 @@ set mouse=a
 set backspace=indent,eol,start
 set ttimeoutlen=10
 set pastetoggle=<F4>
+set sessionoptions-=options
+set complete-=t
+set complete-=i
 " Allow pasting of commands starting with : in vim 8
 set t_BE=
 
@@ -61,6 +64,13 @@ nnoremap <leader>tags :call system('[ -f tags ] && ag -l \| ctags --links=no -L-
 " Copy entire buffer to system clipboard.
 nnoremap <leader>ca :%y+<CR>
 nnoremap <leader>ss :set syntax=
+" Close buffers more quickly.
+nnoremap <leader>w :bd<CR>
+cnoremap wq :echo "Don't do that!"<CR>
+nnoremap <F2> :set list!<CR>
+nnoremap <leader>% :MtaJumpToOtherTag<cr>
+nnoremap <leader>tbc 't"+y'b
+nnoremap <leader>tby 't"0y'b
 
 """ Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -73,18 +83,25 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ap/vim-buftabline'
+Plugin 'kchmck/vim-coffee-script'
 Plugin 'pangloss/vim-javascript'
-Plugin 'maxmellon/vim-jsx-pretty'
+"Plugin 'maxmellon/vim-jsx-pretty'
 Plugin 'vim-python/python-syntax'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'JazzCore/ctrlp-cmatcher'
+Plugin 'tpope/vim-sleuth'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'kshenoy/vim-signature'
+Plugin 'maxboisvert/vim-simple-complete'
+Plugin 'alvan/vim-closetag'
+Plugin 'valloric/MatchTagAlways'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " Various plugin options
 let g:airline_theme = 'papercolor'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:netrw_mousemaps = 0
 let python_highlight_all = 1
 let g:buftabline_indicators=1
@@ -95,6 +112,13 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:NERDCreateDefaultMappings = 0
+let g:airline_section_z = airline#section#create(['%#__accent_bold#TS%{&tabstop}:SW%{&shiftwidth}:ET%{&expandtab}', ' %3l/%3L', ' %2v'])
+let g:sleuth_neighbor_limit = 0
+let g:session_autosave_periodic = 1
+let g:session_autoload = 'no'
+let g:session_autosave = 'yes'
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
 
 " Colorscheme options
 set t_Co=256
@@ -110,6 +134,8 @@ end
 if executable('ag')
     let g:ackprg = 'ag --vimgrep'
 end
+
+autocmd BufNewFile,BufRead *.js.coffee set syntax=coffee
 
 " Highlight trailing spaces with red.
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
