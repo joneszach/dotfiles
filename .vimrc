@@ -10,6 +10,7 @@ set directory=~/.vim/swp//
 syntax enable
 set listchars=space:·,tab:│-
 set colorcolumn=80
+set scrolloff=8
 "set cursorline
 set path+=**
 set wildmenu
@@ -44,6 +45,9 @@ inoremap <F9> <Esc>:bprev<CR>
 inoremap <F10> <Esc>:bnext<CR>
 nnoremap <F9> :bprev<CR>
 nnoremap <F10> :bnext<CR>
+nnoremap <Leader>[ :bprev<CR>
+nnoremap <Leader>] :bnext<CR>
+nnoremap <Leader>l :b#<CR>
 " Clear the highlight (after searching)
 nnoremap <F3> :noh<CR>
 " Control-/ comments like Sublime Text
@@ -64,13 +68,31 @@ nnoremap <leader>tags :call system('[ -f tags ] && ag -l \| ctags --links=no -L-
 " Copy entire buffer to system clipboard.
 nnoremap <leader>ca :%y+<CR>
 nnoremap <leader>ss :set syntax=
+nnoremap <leader>ft :set filetype=
 " Close buffers more quickly.
 nnoremap <leader>w :bd<CR>
 cnoremap wq :echo "Don't do that!"<CR>
 nnoremap <F2> :set list!<CR>
 nnoremap <leader>% :MtaJumpToOtherTag<cr>
+" Cause every <Space> in insert mode to create a new undo history.
+inoremap <Space> <Space><C-g>u
+inoremap <Tab> <Tab><C-g>u
+inoremap <CR> <CR><C-g>u
 nnoremap <leader>tbc 't"+y'b
 nnoremap <leader>tby 't"0y'b
+nnoremap <F8> :TagbarToggle<CR>
+" When jumping to a mark always zz a.k.a. center on that line.
+nnoremap <expr> ' printf('`%czz',getchar())
+" Drop a mark before jumping to the beginning or end of file.
+" Allows you to go back to where you were by jumping to l.
+nnoremap <silent> gg mlgg:SignatureRefresh<CR>
+nnoremap <silent> G mlG:SignatureRefresh<CR>
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+nnoremap <Leader>f :Ack!<Space>
+
+command -nargs=* Ddgd :exec 'read!ddgd <f-args>' | normal! gg
 
 """ Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -95,6 +117,9 @@ Plugin 'kshenoy/vim-signature'
 Plugin 'maxboisvert/vim-simple-complete'
 Plugin 'alvan/vim-closetag'
 Plugin 'valloric/MatchTagAlways'
+Plugin 'majutsushi/tagbar'
+Plugin 'tpope/vim-fugitive'
+Plugin 'mileszs/ack.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -105,9 +130,10 @@ let g:airline_powerline_fonts = 0
 let g:netrw_mousemaps = 0
 let python_highlight_all = 1
 let g:buftabline_indicators=1
+let g:buftabline_numbers = 1
 let g:loaded_matchparen=1
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_match_window = 'bottom,order:ttb,results:50'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
@@ -119,6 +145,8 @@ let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+let g:AutoPairsMapSpace = 0
+let g:ack_qhandler = "botright copen 30"
 
 " Colorscheme options
 set t_Co=256
