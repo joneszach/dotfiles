@@ -8,10 +8,11 @@ set directory=~/.vim/swp//
 
 " Standard vim options
 syntax enable
+set showcmd
 set formatoptions-=r formatoptions-=c formatoptions-=o
 set listchars=space:·,tab:│-
 set colorcolumn=80
-"set cursorline
+set cursorline
 set path+=**
 set wildmenu
 set hlsearch
