@@ -62,9 +62,6 @@ nnoremap <F3> :noh<CR>
 nmap <C-_>   <Plug>NERDCommenterToggle
 imap <C-_>   <Esc><Plug>NERDCommenterToggle i
 vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
-" Control-Shift-k line deletion like Sublime Text
-nnoremap <C-S-k> "_dd<CR>k
-inoremap <C-S-k> <Esc>"_dd<CR>ki
 " Show tags in the local file
 nnoremap <Leader>r :CtrlPBufTag<CR>
 " json pretty printer
@@ -118,18 +115,19 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ap/vim-buftabline'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'pangloss/vim-javascript'
+Plugin 'sheerun/vim-polyglot'
+"Plugin 'kchmck/vim-coffee-script'
+"Plugin 'pangloss/vim-javascript'
 "Plugin 'maxmellon/vim-jsx-pretty'
-Plugin 'vim-python/python-syntax'
+"Plugin 'vim-python/python-syntax'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'tpope/vim-sleuth'
 "Plugin 'jiangmiao/auto-pairs'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kshenoy/vim-signature'
-"Plugin 'maxboisvert/vim-simple-complete'
-Plugin 'alvan/vim-closetag'
+Plugin 'maxboisvert/vim-simple-complete'
+"Plugin 'alvan/vim-closetag'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
@@ -146,9 +144,9 @@ let g:airline_theme = 'papercolor'
 let g:airline_powerline_fonts = 0
 let g:netrw_mousemaps = 0
 let python_highlight_all = 1
-let g:buftabline_indicators=1
+let g:buftabline_indicators = 1
 let g:buftabline_numbers = 1
-let g:loaded_matchparen=1
+let g:loaded_matchparen = 1
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_match_window = 'bottom,order:ttb,results:50'
 let g:ctrlp_switch_buffer = 0
@@ -164,6 +162,7 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
 let g:AutoPairsMapSpace = 0
 let g:ack_qhandler = "botright copen 30"
+
 
 " Colorscheme options
 set t_Co=256
