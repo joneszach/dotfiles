@@ -75,8 +75,11 @@ nnoremap <leader>ca :%y+<CR>
 nnoremap <leader>ss :set syntax=
 nnoremap <leader>ft :set filetype=
 " Close buffers more quickly.
-nnoremap <leader>w :bd<CR>
+nnoremap <silent> <leader>w :bd<CR>
+nnoremap <silent> <leader><del> :bd<CR>
 cnoremap wq :echo "Don't do that!"<CR>
+nnoremap <silent> <leader><ins> :enew<CR>
+nnoremap <leader>b :ls<CR>:b<Space>
 nnoremap <F2> :set list!<CR>
 nnoremap <leader>% :MtaJumpToOtherTag<cr>
 " Cause every <Space> in insert mode to create a new undo history.
