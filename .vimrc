@@ -8,15 +8,17 @@ set directory=~/.vim/swp//
 
 " Standard vim options
 syntax enable
+set formatoptions-=r formatoptions-=c formatoptions-=o
 set listchars=space:·,tab:│-
 set colorcolumn=80
-set scrolloff=8
 "set cursorline
 set path+=**
 set wildmenu
 set hlsearch
 set ignorecase
 set smartcase
+au InsertEnter * set noignorecase
+au InsertLeave * set ignorecase
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -31,6 +33,9 @@ set complete-=t
 set complete-=i
 " Allow pasting of commands starting with : in vim 8
 set t_BE=
+set updatetime=100
+set completeopt+=menuone
+set scrolloff=8
 
 """ Custom mappings
 " I like vim's mouse mode but I don't want it to click to select
@@ -45,6 +50,8 @@ inoremap <F9> <Esc>:bprev<CR>
 inoremap <F10> <Esc>:bnext<CR>
 nnoremap <F9> :bprev<CR>
 nnoremap <F10> :bnext<CR>
+nnoremap <S-Tab> :bprev<CR>
+nnoremap <Tab> :bnext<CR>
 nnoremap <Leader>[ :bprev<CR>
 nnoremap <Leader>] :bnext<CR>
 nnoremap <Leader>l :b#<CR>
@@ -78,6 +85,8 @@ nnoremap <leader>% :MtaJumpToOtherTag<cr>
 inoremap <Space> <Space><C-g>u
 inoremap <Tab> <Tab><C-g>u
 inoremap <CR> <CR><C-g>u
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-g>u\<Tab>"
 nnoremap <leader>tbc 't"+y'b
 nnoremap <leader>tby 't"0y'b
 nnoremap <F8> :TagbarToggle<CR>
@@ -93,6 +102,9 @@ vmap > >gv
 nnoremap <Leader>f :Ack!<Space>
 
 command -nargs=* Ddgd :exec 'read!ddgd <f-args>' | normal! gg
+
+let g:SignatureMarkTextHLDynamic = 1
+"let g:AutoPairsMapCR = 0
 
 """ Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -112,14 +124,18 @@ Plugin 'vim-python/python-syntax'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'tpope/vim-sleuth'
-Plugin 'jiangmiao/auto-pairs'
+"Plugin 'jiangmiao/auto-pairs'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'kshenoy/vim-signature'
-Plugin 'maxboisvert/vim-simple-complete'
+"Plugin 'maxboisvert/vim-simple-complete'
 Plugin 'alvan/vim-closetag'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mileszs/ack.vim'
+"Plugin 'vim-scripts/AutoComplPop'
+Plugin 'nvie/vim-flake8'
+"Plugin 'fholgado/minibufexpl.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -164,6 +180,10 @@ if executable('ag')
 end
 
 autocmd BufNewFile,BufRead *.js.coffee set syntax=coffee
+
+if executable('flake8')
+  autocmd BufWritePost *.py call Flake8()
+end
 
 " Highlight trailing spaces with red.
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
