@@ -102,6 +102,9 @@ nnoremap <Leader>f :Ack!<Space>
 command -nargs=* Ddgd :exec 'read!ddgd <f-args>' | normal! gg
 
 let g:SignatureMarkTextHLDynamic = 1
+let g:polyglot_disabled = ['graphql']
+let g:vsc_completion_command = "\<C-N>"
+let g:vsc_reverse_completion_command = "\<C-P>"
 "let g:AutoPairsMapCR = 0
 
 """ Plugins
@@ -110,16 +113,13 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ap/vim-buftabline'
 Plugin 'sheerun/vim-polyglot'
-"Plugin 'kchmck/vim-coffee-script'
-"Plugin 'pangloss/vim-javascript'
-"Plugin 'maxmellon/vim-jsx-pretty'
-"Plugin 'vim-python/python-syntax'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'tpope/vim-sleuth'
