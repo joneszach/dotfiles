@@ -12,7 +12,7 @@ set showcmd
 set formatoptions-=r formatoptions-=c formatoptions-=o
 set listchars=space:·,tab:│-
 set colorcolumn=80
-set cursorline
+"set cursorline
 set path+=**
 set wildmenu
 set hlsearch
@@ -122,7 +122,11 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ap/vim-buftabline'
-Plugin 'sheerun/vim-polyglot'
+"Plugin 'sheerun/vim-polyglot'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'pangloss/vim-javascript'
+Plugin 'maxmellon/vim-jsx-pretty'
+Plugin 'vim-python/python-syntax'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'tpope/vim-sleuth'

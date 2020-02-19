@@ -1,0 +1,101 @@
+" Use Vim settings, rather than Vi settings
+set nocompatible
+
+" Read file when modified outside Vim
+set autoread
+
+set backspace=indent,eol,start
+
+set hidden
+set ruler
+set showcmd
+set laststatus=2
+set number
+syntax enable
+
+set wildmenu
+set sessionoptions-=options
+set complete-=t
+set complete-=i
+
+set t_BE=
+set ttimeoutlen=10
+" set updatetime=100
+set completeopt+=menuone
+set scrolloff=8
+
+nnoremap <F2> :set list!<CR>
+nnoremap <F3> :noh<CR>
+set pastetoggle=<F4>
+
+inoremap <F9> <Esc>:bprev<CR>
+inoremap <F10> <Esc>:bnext<CR>
+nnoremap <F9> :bprev<CR>
+nnoremap <F10> :bnext<CR>
+nnoremap <S-Tab> :bprev<CR>
+nnoremap <Tab> :bnext<CR>
+nnoremap <Leader>[ :bprev<CR>
+nnoremap <Leader>] :bnext<CR>
+nnoremap <Leader>l :b#<CR>
+
+nnoremap <leader>ss :set syntax=
+nnoremap <leader>ft :set filetype=
+
+" Finer undo specificity.
+inoremap <Space> <Space><C-g>u
+inoremap <Tab> <Tab><C-g>u
+inoremap <CR> <CR><C-g>u
+
+" Always re-center the screen when using marks.
+nnoremap <expr> ' printf('`%czz',getchar())
+
+" Mark the last line with 'l' before going to top or bottom.
+nnoremap <silent> gg mlgg
+nnoremap <silent> G mlG
+
+nnoremap <silent> <leader>w :bd<CR>
+nnoremap <leader>b :ls<CR>:b<Space>
+
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+
+" Set partial search and result highlighting
+set incsearch
+set hlsearch
+
+" Ignore case when searching
+set ignorecase
+set smartcase
+
+" Show matching bracets
+set showmatch
+
+set t_Co=256
+colorscheme default
+
+set cursorline
+highlight CursorLine cterm=NONE ctermbg=236
+highlight LineNr ctermfg=blue
+highlight CursorLineNr ctermfg=blue ctermbg=236
+highlight Comment ctermfg=241
+
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+" Change Netrw tree mode
+let g:netrw_liststyle=3
+
+set mouse-=a
+
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set listchars=eol:¬,tab:▸\ ,trail:·
+
+set autoindent
+set smartindent
+
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
